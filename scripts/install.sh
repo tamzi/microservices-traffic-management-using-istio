@@ -36,11 +36,11 @@ sed -i s#"VEhYTktMUFFTWE9BQ1JPRA=="#$PASSWORD_BASE64#g secrets.yaml
 sed -i s#"c2wtdXMtc291dGgtMS1wb3J0YWwuMy5kYmxheWVyLmNvbQ=="#$HOST_BASE64#g secrets.yaml
 sed -i s#"MTg0ODE="#$PORT_BASE64#g secrets.yaml
 
-curl -L https://git.io/getLatestIstio | sh -
+curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.0.2 sh -
 cd $(ls | grep istio)
 sudo mv bin/istioctl /usr/local/bin/
 
-kubectl delete --ignore-not-found=true -f install/kubernetes/istio.yaml
+kubectl delete --ignore-not-found=true -f install/kubernetes/istio-demo.yaml
 kubectl delete --ignore-not-found=true -f install/kubernetes/addons
 kubectl delete istioconfigs --all
 kubectl delete thirdpartyresource istio-config.istio.io
@@ -58,7 +58,11 @@ do
     kuber=$(kubectl get pods | grep Terminating)
 done
 
-kubectl apply -f install/kubernetes/istio.yaml
+kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+
+# Wait for kubernetes to register the resources
+sleep 10
+kubectl apply -f install/kubernetes/istio-demo.yaml
 
 PODS=$(kubectl get pods | grep istio | grep Pending)
 while [ ${#PODS} -ne 0 ]
@@ -85,12 +89,16 @@ echo "Creating local MySQL database..."
 kubectl apply -f <(istioctl kube-inject -f ../book-database.yaml)
 echo "Creating product page and ingress resource..."
 kubectl apply -f <(istioctl kube-inject -f ../bookinfo.yaml)
+
 echo "Creating details service..."
-kubectl apply -f <(istioctl kube-inject -f ../details-new.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16)
+kubectl apply -f <(istioctl kube-inject -f ../details-new.yaml)
 echo "Creating reviews service..."
-kubectl apply -f <(istioctl kube-inject -f ../reviews-new.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16)
+kubectl apply -f <(istioctl kube-inject -f ../reviews-new.yaml)
 echo "Creating ratings service..."
-kubectl apply -f <(istioctl kube-inject -f ../ratings-new.yaml --includeIPRanges=172.30.0.0/16,172.20.0.0/16)
+kubectl apply -f <(istioctl kube-inject -f ../ratings-new.yaml)
+
+# Create the gateway
+istioctl create -f ../istio-gateway.yaml
 
 PODS=$(kubectl get pods | grep Init)
 while [ ${#PODS} -ne 0 ]
@@ -106,10 +114,12 @@ echo "BookInfo done."
 
 function health_check() {
 
-export GATEWAY_URL=$(bx cs workers $CLUSTER_NAME | grep normal | awk '{print $2}' | head -1):$(kubectl get svc istio-ingress -n istio-system -o jsonpath={.spec.ports[0].nodePort})
+export GATEWAY_URL=$(bx cs workers $CLUSTER_NAME | grep normal | awk '{print $2}' | head -1):$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath={.spec.ports[0].nodePort})
 HEALTH=$(curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage)
 
 TRIES=0
+echo "Using url: $GATEWAY_URL"
+sleep 5s
 while [ $HEALTH -ne 200 ]
 do
     TRIES=$((TRIES+1))
@@ -126,7 +136,7 @@ done
 
 echo "Everything looks good."
 echo "Cleaning up..."
-kubectl delete -f install/kubernetes/istio.yaml
+kubectl delete -f install/kubernetes/istio-demo.yaml
 kubectl delete --ignore-not-found=true -f install/kubernetes/addons
 kubectl delete istioconfigs --all
 kubectl delete thirdpartyresource istio-config.istio.io
@@ -137,6 +147,8 @@ kubectl delete --ignore-not-found=true -f ../details-new.yaml
 kubectl delete --ignore-not-found=true -f ../ratings-new.yaml
 kubectl delete --ignore-not-found=true -f ../reviews-new.yaml
 kubectl delete --ignore-not-found=true -f ../secrets.yaml
+kubectl delete --ignore-not-found=true -f ../istio-gateway.yaml
+
 kuber=$(kubectl get pods | grep Terminating)
 while [ ${#kuber} -ne 0 ]
 do
