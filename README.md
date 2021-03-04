@@ -328,7 +328,7 @@ gather telemetry for services in your cluster.
 
   Point your browser to http://localhost:3000
 
-  Your dashboard should look like this:  
+  Your dashboard should look like this:
   ![Grafana-Dashboard](images/grafana.png)
 
 - To collect new telemetry data, you will apply a mixer rule. For this sample,
@@ -426,7 +426,7 @@ prerequisites.
 ## 5. Create an external datasource for the application
 
 Provision Compose for MySQL in IBM Cloud via
-https://console.ng.bluemix.net/catalog/services/compose-for-mysql  
+https://console.ng.bluemix.net/catalog/services/compose-for-mysql
 Go to Service credentials and view your credentials. Your MySQL hostname, port,
 user, and password are under your credential uri and it should look like this
 ![images](images/mysqlservice.png)
@@ -594,7 +594,7 @@ $ kubectl apply -f <(istioctl kube-inject -f ratings-new.yaml)
 ```
 
 You can now access your application to confirm that it is getting data from your
-MySQL database. Point your browser to:  
+MySQL database. Point your browser to:
 `http://${GATEWAY_URL}/productpage`
 
 # Troubleshooting

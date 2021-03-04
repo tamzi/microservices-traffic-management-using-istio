@@ -292,7 +292,7 @@ $ istioctl replace -f istio/samples/bookinfo/kube/route-rule-reviews-v3.yaml
 
   브라우저에서 http://localhost:3000 로 접근하십시오
 
-  대시보드는 다음과 같은 모습입니다:  
+  대시보드는 다음과 같은 모습입니다:
   ![Grafana-Dashboard](images/grafana.png)
 
 - 새로운 원격 측정 데이터 수집을 위해 mixer rule을 적용해야 합니다. 이 예제는,
@@ -385,7 +385,7 @@ $ istioctl replace -f istio/samples/bookinfo/kube/route-rule-reviews-v3.yaml
 ## 5. 애플리케이션에 대한 외부 데이터 소스 만들기
 
 https://console.ng.bluemix.net/catalog/services/compose-for-mysql 을 통해
-Bluemix에 Compose for MySQL을 프로비전 하십시오  
+Bluemix에 Compose for MySQL을 프로비전 하십시오
 서비스 신임 정보로 이동하고 신임 정보를 확인하십시오. MySQL hostname, port,
 user, 그리고 password 가 신임 정보의 uri에 있으며 이는 이와 같은 모습입니다
 ![images](images/mysqlservice.png)
@@ -509,7 +509,7 @@ $ kubectl apply -f <(istioctl kube-inject -f demo/ratings-new.yaml --includeIPRa
 옵션을 사용하는 이유입니다.
 
 이제 애플리케이션에 접근하여 데이터를 MySQL 데이터 베이스로부터 얻는지 확인해 볼
-수 있습니다. 브라우저에서 다음으로 접근하십시오:  
+수 있습니다. 브라우저에서 다음으로 접근하십시오:
 `http://${GATEWAY_URL}/productpage`
 
 # 문제 해결
