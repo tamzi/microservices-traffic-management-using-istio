@@ -14,8 +14,8 @@ sudo ./Bluemix_CLI/install_bluemix_cli
 
 function bluemix_auth() {
 echo "Authenticating with Bluemix"
-echo "1" | bx login -a https://api.ng.bluemix.net --apikey $BLUEMIX_AUTH
-curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+echo "1" | bx login -a https://api.ng.bluemix.net --apikey "$BLUEMIX_AUTH"
+curl -LO https://storage.googleapis.com/kubernetes-release/release/"$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)"/bin/linux/amd64/kubectl
 bx plugin install container-service -r Bluemix
 echo "Installing kubectl"
 chmod +x ./kubectl
@@ -23,13 +23,13 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 }
 
 function cluster_setup() {
-bx cs workers $CLUSTER_NAME
-$(bx cs cluster-config $CLUSTER_NAME | grep export)
+bx cs workers "$CLUSTER_NAME"
+"$(bx cs cluster-config "$CLUSTER_NAME" | grep export)"
 
-export USERNAME_BASE64=$(echo -n book_user | base64)
-export PASSWORD_BASE64=$(echo -n password | base64)
-export HOST_BASE64=$(echo -n book-database | base64)
-export PORT_BASE64=$(echo -n 3306 | base64)
+export USERNAME_BASE64="$(echo -n book_user | base64)"
+export PASSWORD_BASE64="$(echo -n password | base64)"
+export HOST_BASE64="$(echo -n book-database | base64)"
+export PORT_BASE64="$(echo -n 3306 | base64)"
 
 sed -i s#"YWRtaW4="#$USERNAME_BASE64#g secrets.yaml
 sed -i s#"VEhYTktMUFFTWE9BQ1JPRA=="#$PASSWORD_BASE64#g secrets.yaml
@@ -37,7 +37,7 @@ sed -i s#"c2wtdXMtc291dGgtMS1wb3J0YWwuMy5kYmxheWVyLmNvbQ=="#$HOST_BASE64#g secre
 sed -i s#"MTg0ODE="#$PORT_BASE64#g secrets.yaml
 
 curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.0.2 sh -
-cd $(ls | grep istio)
+cd "$(ls | grep istio)"
 sudo mv bin/istioctl /usr/local/bin/
 
 kubectl delete --ignore-not-found=true -f install/kubernetes/istio-demo.yaml
@@ -114,20 +114,20 @@ echo "BookInfo done."
 
 function health_check() {
 
-export GATEWAY_URL=$(bx cs workers $CLUSTER_NAME | grep normal | awk '{print $2}' | head -1):$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath={.spec.ports[0].nodePort})
-HEALTH=$(curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage)
+export GATEWAY_URL="$(bx cs workers "$CLUSTER_NAME" | grep normal | awk '{print $2}' | head -1):$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath={.spec.ports[0].nodePort})"
+HEALTH=$(curl -o /dev/null -s -w "%{http_code}\n" http://"$GATEWAY_URL"/productpage)
 
 TRIES=0
 echo "Using url: $GATEWAY_URL"
 sleep 5s
-while [ $HEALTH -ne 200 ]
+while [ "$HEALTH" -ne 200 ]
 do
     TRIES=$((TRIES+1))
-    echo "Trial number: ${TRIES}"
-    HEALTH=$(curl -o /dev/null -s -w "%{http_code}\n" http://$GATEWAY_URL/productpage)
-    echo $HEALTH
+    echo "Trial number: $TRIES"
+    HEALTH=$(curl -o /dev/null -s -w "%{http_code}\n" http://"$GATEWAY_URL"/productpage)
+    echo "$HEALTH"
     sleep 5s
-    if [ $TRIES -eq 21 ]
+    if [ "$TRIES" -eq 21 ]
     then
         echo "Failed the Health Check on the application."
         exit 1
