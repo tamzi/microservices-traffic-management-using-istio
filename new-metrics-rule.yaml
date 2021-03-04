@@ -20,13 +20,13 @@ metadata:
   namespace: istio-system
 spec:
   metrics:
-  - name: double_request_count # Prometheus metric name
-    instance_name: doublerequestcount.metric.istio-system # Mixer instance name (fully-qualified)
-    kind: COUNTER
-    label_names:
-    - source
-    - destination
-    - message
+    - name: double_request_count # Prometheus metric name
+      instance_name: doublerequestcount.metric.istio-system # Mixer instance name (fully-qualified)
+      kind: COUNTER
+      label_names:
+        - source
+        - destination
+        - message
 ---
 # Rule to send metric instances to a Prometheus handler
 apiVersion: "config.istio.io/v1alpha2"
@@ -36,9 +36,9 @@ metadata:
   namespace: istio-system
 spec:
   actions:
-  - handler: doublehandler.prometheus
-    instances:
-    - doublerequestcount.metric
+    - handler: doublehandler.prometheus
+      instances:
+        - doublerequestcount.metric
 ---
 # Configuration for logentry instances
 apiVersion: "config.istio.io/v1alpha2"
@@ -65,9 +65,9 @@ metadata:
   name: newhandler
   namespace: istio-system
 spec:
- severity_levels:
-   warning: 1 # Params.Level.WARNING
- outputAsJson: true
+  severity_levels:
+    warning: 1 # Params.Level.WARNING
+  outputAsJson: true
 ---
 # Rule to send logentry instances to a stdio handler
 apiVersion: "config.istio.io/v1alpha2"
@@ -78,9 +78,9 @@ metadata:
 spec:
   match: "true" # match for all requests
   actions:
-   - handler: newhandler.stdio
-     instances:
-     - newlog.logentry
+    - handler: newhandler.stdio
+      instances:
+        - newlog.logentry
 ---
 # Configuration for metric instances
 apiVersion: "config.istio.io/v1alpha2"
@@ -104,13 +104,13 @@ metadata:
   namespace: istio-system
 spec:
   metrics:
-  - name: double_request_count # Prometheus metric name
-    instance_name: doublerequestcount.metric.istio-system # Mixer instance name (fully-qualified)
-    kind: COUNTER
-    label_names:
-    - source
-    - destination
-    - message
+    - name: double_request_count # Prometheus metric name
+      instance_name: doublerequestcount.metric.istio-system # Mixer instance name (fully-qualified)
+      kind: COUNTER
+      label_names:
+        - source
+        - destination
+        - message
 ---
 # Rule to send metric instances to a Prometheus handler
 apiVersion: "config.istio.io/v1alpha2"
@@ -120,9 +120,9 @@ metadata:
   namespace: istio-system
 spec:
   actions:
-  - handler: doublehandler.prometheus
-    instances:
-    - doublerequestcount.metric
+    - handler: doublehandler.prometheus
+      instances:
+        - doublerequestcount.metric
 ---
 # Configuration for logentry instances
 apiVersion: "config.istio.io/v1alpha2"
@@ -149,9 +149,9 @@ metadata:
   name: newhandler
   namespace: istio-system
 spec:
- severity_levels:
-   warning: 1 # Params.Level.WARNING
- outputAsJson: true
+  severity_levels:
+    warning: 1 # Params.Level.WARNING
+  outputAsJson: true
 ---
 # Rule to send logentry instances to a stdio handler
 apiVersion: "config.istio.io/v1alpha2"
@@ -162,7 +162,7 @@ metadata:
 spec:
   match: "true" # match for all requests
   actions:
-   - handler: newhandler.stdio
-     instances:
-     - newlog.logentry
+    - handler: newhandler.stdio
+      instances:
+        - newlog.logentry
 ---
