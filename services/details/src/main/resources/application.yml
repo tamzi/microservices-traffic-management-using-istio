@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: details
+
+server:
+  port: 9080

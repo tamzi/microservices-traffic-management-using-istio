@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: productpage
+
+server:
+  port: 9080
