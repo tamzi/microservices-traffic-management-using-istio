@@ -8,9 +8,17 @@ plugins {
 }
 
 dependencies {
+    implementation(platform(libs.testcontainers.bom))
     implementation(libs.kotlin.reflect)
     implementation(libs.spring.boot.starter.web)
+    implementation(libs.junit.jupiter)
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(platform(libs.testcontainers.bom))
     testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.spring.boot.testcontainers)
+    testImplementation(libs.testcontainers.junit.jupiter)
+    testImplementation(libs.testcontainers.mysql)
 }
 
 java {
@@ -24,8 +32,4 @@ kotlin {
         jvmTarget.set(JvmTarget.JVM_21)
         freeCompilerArgs.add("-Xjsr305=strict")
     }
-}
-
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
 }

@@ -1,4 +1,4 @@
-package org.bookinfo.ratings
+package org.bookinfo.webbff
 
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Tag
@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext
 
 @Tag("integration")
 @SpringBootTest
-class RatingsApplicationTests {
+class WebBffApplicationTests {
 
     @Autowired
     lateinit var applicationContext: ApplicationContext

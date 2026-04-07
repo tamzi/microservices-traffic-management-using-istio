@@ -8,10 +8,11 @@ plugins {
 }
 
 dependencies {
-    implementation(platform(libs.testcontainers.bom))
     implementation(libs.kotlin.reflect)
-    implementation(libs.spring.boot.starter.web)
-    implementation(libs.junit.jupiter)
+    implementation(libs.bundles.spring.web)
+    implementation(libs.springdoc.openapi.webmvc)
+    implementation(libs.kotlin.logging)
+    testImplementation(libs.junit.jupiter)
     testImplementation(libs.junit.jupiter.api)
     testImplementation(platform(libs.testcontainers.bom))
     testImplementation(libs.spring.boot.starter.test)
