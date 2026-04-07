@@ -16,6 +16,8 @@ dependencyResolutionManagement {
 
 include(
     "services:productpage",
+    "services:web-bff",
+    "services:mobile-bff",
     "services:details",
     "services:reviews",
     "services:ratings",

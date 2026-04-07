@@ -1,17 +1,144 @@
 [versions]
-kotlin = "2.0.21"
-spring-boot = "3.3.6"
-spring-dependency-management = "1.1.6"
-detekt = "1.23.7"
+# ──────────────────────────────────────────────────────────────
+# Core
+# ──────────────────────────────────────────────────────────────
+kotlin                      = "2.3.20"
+spring-boot                 = "4.0.5"
+spring-dependency-management = "1.1.7"
+spring-cloud                = "2025.1.1"      # BOM for Spring Cloud — compatible with Spring Boot 4.0.x
+kotlinx-coroutines          = "1.10.2"
+kotlinx-serialization       = "1.8.1"
 
+# ──────────────────────────────────────────────────────────────
+# Database & Persistence
+# ──────────────────────────────────────────────────────────────
+flyway                      = "12.3.0"
+# If using Liquibase instead of Flyway, uncomment:
+# liquibase                 = "4.31.0"
+
+# ──────────────────────────────────────────────────────────────
+# API & Documentation
+# ──────────────────────────────────────────────────────────────
+springdoc-openapi           = "3.0.1"         # v3.x for Spring Boot 4; v2.x was for Boot 3
+
+# ──────────────────────────────────────────────────────────────
+# Resilience & Observability
+# ──────────────────────────────────────────────────────────────
+resilience4j                = "2.3.0"
+micrometer                  = "1.15.0"
+micrometer-tracing          = "1.5.0"
+
+# ──────────────────────────────────────────────────────────────
+# Testing
+# ──────────────────────────────────────────────────────────────
+junit-jupiter               = "6.0.3"
+testcontainers-bom          = "2.0.4"
+mockk                       = "1.14.9"
+archunit                    = "1.4.0"
+awaitility                  = "4.3.0"
+
+# ──────────────────────────────────────────────────────────────
+# Static Analysis & Code Quality
+# ──────────────────────────────────────────────────────────────
+# Detekt 1.23.8 is the last stable 1.x; Detekt 2.x (dev.detekt) is still alpha.
+# Stick with 1.23.8 until 2.x goes GA and confirms Kotlin 2.3 support.
+detekt                      = "1.23.8"
+
+# ──────────────────────────────────────────────────────────────
+# Logging
+# ──────────────────────────────────────────────────────────────
+kotlin-logging              = "7.0.4"         # io.github.oshai:kotlin-logging-jvm
+
+# ──────────────────────────────────────────────────────────────
+# Utilities
+# ──────────────────────────────────────────────────────────────
+jackson-kotlin              = "2.18.3"
+
+# ────────────────────────────────────────────────────────────────────────────
 [libraries]
-kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
-spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
-spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+# ── Kotlin ──────────────────────────────────────────────────────────────────
+kotlin-reflect              = { module = "org.jetbrains.kotlin:kotlin-reflect" }
+kotlinx-coroutines-core     = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-reactor  = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test     = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-json  = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
+# ── Spring Boot Starters ────────────────────────────────────────────────────
+spring-boot-starter-web     = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-data-jdbc = { module = "org.springframework.boot:spring-boot-starter-data-jdbc" }
+spring-boot-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-cache   = { module = "org.springframework.boot:spring-boot-starter-cache" }
+spring-boot-starter-amqp    = { module = "org.springframework.boot:spring-boot-starter-amqp" }
+
+# ── Spring Boot Test ────────────────────────────────────────────────────────
+spring-boot-starter-test    = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-testcontainers  = { module = "org.springframework.boot:spring-boot-testcontainers" }
+spring-security-test        = { module = "org.springframework.security:spring-security-test" }
+
+# ── Spring Cloud ────────────────────────────────────────────────────────────
+spring-cloud-dependencies   = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "spring-cloud" }
+spring-cloud-starter-config = { module = "org.springframework.cloud:spring-cloud-starter-config" }
+spring-cloud-starter-openfeign = { module = "org.springframework.cloud:spring-cloud-starter-openfeign" }
+spring-cloud-starter-circuitbreaker-resilience4j = { module = "org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j" }
+spring-cloud-starter-stream-kafka = { module = "org.springframework.cloud:spring-cloud-starter-stream-kafka" }
+
+# ── Database ────────────────────────────────────────────────────────────────
+flyway-core                 = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+flyway-mysql                = { module = "org.flywaydb:flyway-mysql", version.ref = "flyway" }
+flyway-postgresql           = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
+
+# ── API / OpenAPI ───────────────────────────────────────────────────────────
+springdoc-openapi-webmvc    = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc-openapi" }
+springdoc-openapi-webflux   = { module = "org.springdoc:springdoc-openapi-starter-webflux-ui", version.ref = "springdoc-openapi" }
+
+# ── Resilience ──────────────────────────────────────────────────────────────
+resilience4j-spring-boot    = { module = "io.github.resilience4j:resilience4j-spring-boot3", version.ref = "resilience4j" }
+resilience4j-kotlin         = { module = "io.github.resilience4j:resilience4j-kotlin", version.ref = "resilience4j" }
+
+# ── Observability ───────────────────────────────────────────────────────────
+micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer" }
+micrometer-tracing-bridge-otel = { module = "io.micrometer:micrometer-tracing-bridge-otel", version.ref = "micrometer-tracing" }
+
+# ── Serialization / Jackson ─────────────────────────────────────────────────
+jackson-module-kotlin       = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson-kotlin" }
+
+# ── Logging ─────────────────────────────────────────────────────────────────
+kotlin-logging              = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "kotlin-logging" }
+
+# ── Testing ─────────────────────────────────────────────────────────────────
+junit-jupiter               = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+junit-jupiter-api           = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter" }
+testcontainers-bom          = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers-bom" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:testcontainers-junit-jupiter", version.ref = "testcontainers-bom" }
+testcontainers-mysql        = { module = "org.testcontainers:testcontainers-mysql", version.ref = "testcontainers-bom" }
+testcontainers-postgresql   = { module = "org.testcontainers:testcontainers-postgresql", version.ref = "testcontainers-bom" }
+testcontainers-kafka        = { module = "org.testcontainers:testcontainers-kafka", version.ref = "testcontainers-bom" }
+testcontainers-redis        = { module = "org.testcontainers:testcontainers-redis", version.ref = "testcontainers-bom" }
+mockk                       = { module = "io.mockk:mockk", version.ref = "mockk" }
+archunit                    = { module = "com.tngtech.archunit:archunit-junit5", version.ref = "archunit" }
+awaitility-kotlin           = { module = "org.awaitility:awaitility-kotlin", version.ref = "awaitility" }
+
+# ────────────────────────────────────────────────────────────────────────────
+[bundles]
+# Convenience bundles — use in build.gradle.kts as libs.bundles.<name>
+spring-web = ["spring-boot-starter-web", "spring-boot-starter-validation", "spring-boot-starter-actuator", "jackson-module-kotlin"]
+spring-data-jpa = ["spring-boot-starter-data-jpa", "flyway-core"]
+spring-cloud-core = ["spring-cloud-starter-config", "spring-cloud-starter-openfeign"]
+observability = ["micrometer-registry-prometheus", "micrometer-tracing-bridge-otel"]
+testing = ["spring-boot-starter-test", "junit-jupiter", "mockk", "kotlinx-coroutines-test"]
+testcontainers-core = ["spring-boot-testcontainers", "testcontainers-junit-jupiter"]
+
+# ────────────────────────────────────────────────────────────────────────────
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
-spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+kotlin-jvm                  = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring               = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+kotlin-jpa                  = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin" }
+kotlin-serialization        = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+spring-boot                 = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+detekt                      = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
