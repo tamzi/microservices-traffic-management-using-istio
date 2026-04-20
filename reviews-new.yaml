@@ -6,8 +6,8 @@ metadata:
     app: reviews
 spec:
   ports:
-  - port: 9080
-    name: http
+    - port: 9080
+      name: http
   selector:
     app: reviews
 ---
@@ -24,32 +24,32 @@ spec:
         version: v1
     spec:
       containers:
-      - name: reviews
-        image: journeycode/reviews-v1
-        imagePullPolicy: Always
-        env:
-          - name: MYSQL_DB_USER
-            valueFrom:
-              secretKeyRef:
-                name: demo-credentials
-                key: username
-          - name: MYSQL_DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: demo-credentials
-                key: password
-          - name: MYSQL_DB_HOST
-            valueFrom:
-              secretKeyRef:
-                name: demo-credentials
-                key: host
-          - name: MYSQL_DB_PORT
-            valueFrom:
-              secretKeyRef:
-                name: demo-credentials
-                key: port
-        ports:
-        - containerPort: 9080
+        - name: reviews
+          image: journeycode/reviews-v1
+          imagePullPolicy: Always
+          env:
+            - name: MYSQL_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: demo-credentials
+                  key: username
+            - name: MYSQL_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: demo-credentials
+                  key: password
+            - name: MYSQL_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: demo-credentials
+                  key: host
+            - name: MYSQL_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: demo-credentials
+                  key: port
+          ports:
+            - containerPort: 9080
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -64,32 +64,32 @@ spec:
         version: v2
     spec:
       containers:
-      - name: reviews
-        image: journeycode/reviews-v2
-        imagePullPolicy: Always
-        env:
-          - name: MYSQL_DB_USER
-            valueFrom:
-              secretKeyRef:
-                name: demo-credentials
-                key: username
-          - name: MYSQL_DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: demo-credentials
-                key: password
-          - name: MYSQL_DB_HOST
-            valueFrom:
-              secretKeyRef:
-                name: demo-credentials
-                key: host
-          - name: MYSQL_DB_PORT
-            valueFrom:
-              secretKeyRef:
-                name: demo-credentials
-                key: port
-        ports:
-        - containerPort: 9080
+        - name: reviews
+          image: journeycode/reviews-v2
+          imagePullPolicy: Always
+          env:
+            - name: MYSQL_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: demo-credentials
+                  key: username
+            - name: MYSQL_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: demo-credentials
+                  key: password
+            - name: MYSQL_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: demo-credentials
+                  key: host
+            - name: MYSQL_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: demo-credentials
+                  key: port
+          ports:
+            - containerPort: 9080
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -104,29 +104,29 @@ spec:
         version: v3
     spec:
       containers:
-      - name: reviews
-        image: journeycode/reviews-v3
-        imagePullPolicy: Always
-        env:
-          - name: MYSQL_DB_USER
-            valueFrom:
-              secretKeyRef:
-                name: demo-credentials
-                key: username
-          - name: MYSQL_DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: demo-credentials
-                key: password
-          - name: MYSQL_DB_HOST
-            valueFrom:
-              secretKeyRef:
-                name: demo-credentials
-                key: host
-          - name: MYSQL_DB_PORT
-            valueFrom:
-              secretKeyRef:
-                name: demo-credentials
-                key: port
-        ports:
-        - containerPort: 9080
+        - name: reviews
+          image: journeycode/reviews-v3
+          imagePullPolicy: Always
+          env:
+            - name: MYSQL_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: demo-credentials
+                  key: username
+            - name: MYSQL_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: demo-credentials
+                  key: password
+            - name: MYSQL_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: demo-credentials
+                  key: host
+            - name: MYSQL_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: demo-credentials
+                  key: port
+          ports:
+            - containerPort: 9080
